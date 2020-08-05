@@ -1,13 +1,15 @@
 import { RequestHandler } from "express";
 import { Todo } from "../models/todo";
-
+import { v4 as uuidv4 } from "uuid";
 const TODOS: Todo[] = [];
 
 
 export const createTodo: RequestHandler = (req, res, next) => {
 
     const text = (req.body as { text: string }).text;
-    const newTodo = new Todo(Math.random().toString(), text);
+    const id = uuidv4();
+    
+    const newTodo = new Todo(id, text);
     TODOS.push(newTodo);
 
     res.status(201).json({ message: "created the todo.", createTodo: newTodo });
@@ -43,5 +45,5 @@ export const deleteTodo:RequestHandler<{id:string}>=(req, res, next) => {
     }
     TODOS.splice(todoIndex,1)
 
-    res.status(201).json({message:"deleted");
+    res.status(201).json({message:"deleted"});
 }
