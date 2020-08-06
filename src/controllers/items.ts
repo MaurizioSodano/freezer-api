@@ -20,6 +20,8 @@ const ItemModel = model("Item", itemsSchema);
 
 export const createItem: RequestHandler = (req, res) => {
     const item = req.body as Note;
+    console.log(item);
+    
     const { title, quantity, weight, insertion_date, best_before_date } = item;
 
     const id = uuidv4();
@@ -80,6 +82,18 @@ export const deleteItem: RequestHandler<{ id: string }> = (req, res) => {
     ItemModel.deleteOne({
         id: itemId
     },
+        (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Successfully deleted");
+            }
+        })
+}
+
+export const deleteItems: RequestHandler = (req, res) => {
+
+    ItemModel.deleteMany({},
         (err) => {
             if (err) {
                 console.log(err);

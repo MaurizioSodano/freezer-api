@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
+import bodyParser from "body-parser";
 import todoRoutes from "./routes/todos";
 import itemRoutes from "./routes/items";
 require('dotenv').config()
@@ -31,6 +32,10 @@ router.options("*", cors.default(options)) */
 
 
 app.use(json());
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+  
 //console.log(process.env.DB_HOST);
 
 const db = process.env.DB_HOST as string;
